@@ -1,16 +1,13 @@
 # libraries --------------------------------------------------------------------
 library(cmdstanr)
-library(ggplot2)
-library(ggdist)
-library(posterior)
 library(bayesplot)
 library(mcmcse)
+library(posterior)
 
-csv <- 'p2'
+csv <- 'p1'
+
 df <- read.csv(paste0(csv, ".csv"))
-
 model <- cmdstan_model("model.stan")
-
 
 stan_data <- list(
   n = nrow(df),
