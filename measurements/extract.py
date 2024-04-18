@@ -7,8 +7,7 @@ import exif
 import pandas as pd
 
 def load_images_from_folder(folder):
-    images = []
-    df = pd.DataFrame(columns=["datetime","point","precise","lat","lon","ghpe"])
+    df = pd.DataFrame(columns=["datetime","point","precise","lat","lng","ghpe"])
     for filename in os.listdir(folder):
         print(filename)
         
