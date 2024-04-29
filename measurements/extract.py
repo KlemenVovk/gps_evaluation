@@ -36,7 +36,7 @@ def load_images_from_folder(folder):
             
     return df
 
-df = load_images_from_folder("/home/lema/Documents/forenzika/slike df")
+df = load_images_from_folder("/home/lema/Documents/forenzika/slike df2/slike df")
 df.to_csv("points.csv")
 
 
