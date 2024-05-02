@@ -5,7 +5,7 @@
 
 library(cmdstanr)
 library(bayesplot)
-library(mcmcse)
+# library(mcmcse)
 library(posterior)
 
 
@@ -25,8 +25,14 @@ install_cmdstan(
 # rebuild_cmdstan()
 
 # csv of points
-csv <- 'p2'
-folder = "FRI/"
+# csv <- 'p2'
+# folder = "FRI/"
+
+args = commandArgs(trailingOnly=TRUE)
+folder = args[1]
+csv = args[2]
+
+
 # df <- read.csv(paste0(csv, ".csv"))
 df <- read.csv(paste0(folder,csv,".csv"))
 
@@ -53,4 +59,4 @@ fit$summary()
 results <- as_draws_df(fit$draws())
 results <- results[,c(2,3,4,5,6,7)]
 colnames(results) <- c("mu_dist", "mu_angle", "sigma11", "sigma21", "sigma12", "sigma22")
-write.csv(results, paste0(paste0(folder,csv,"_draws.csv")), row.names = FALSE, quote = FALSE)
+write.csv(results, paste0(folder,csv,"_draws.csv"), row.names = FALSE, quote = FALSE)
