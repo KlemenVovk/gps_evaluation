@@ -1,6 +1,6 @@
 data {
     int<lower=1> n; // total number of reference points collected for one proposal
-    array[n] vector[2] x; // reference points for one proposal
+    array[n] vector[2] dist_ang; // reference points for one proposal
 }
 
 parameters {
@@ -9,5 +9,5 @@ parameters {
 }
 
 model {
-    x ~ multi_normal(mu, sigma);
+    dist_ang ~ multi_normal(mu, sigma);
 }
