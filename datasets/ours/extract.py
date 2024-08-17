@@ -1,3 +1,6 @@
+# This script was used to extract the GPS data from EXIF metadata in the mimages we collected for LJ and NM datasets.
+# We keep it here only as reference, as we will not be uploading all the images to the VCS.
+
 # from PIL import Image, ExifTags
 
 import cv2 as cv
