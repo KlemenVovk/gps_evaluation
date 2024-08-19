@@ -4,7 +4,29 @@ import contextily as ctx
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+from pprint import pprint
 
+def remove_consecutive_duplicates(df, time_col='datetime', proposal_col='measured_from'):
+    # currently ignores precise as the unil dataset does not have imprecise...
+    # sort first by proposal and then by datetime of measurement
+    # identify duplicate rows (consecutive) and mark them for deletion
+    COLUMNS_TO_COMPARE_FOR_DUPLICATE_ROW = [proposal_col, 'lat', 'lng']
+    df = df.sort_values(by=[proposal_col, time_col], ascending=True, ignore_index=True)
+    df["delete"] = False
+    for i in range(1, df.shape[0]):
+        if df.loc[i, COLUMNS_TO_COMPARE_FOR_DUPLICATE_ROW].equals(df.loc[i-1, COLUMNS_TO_COMPARE_FOR_DUPLICATE_ROW]):
+            df.loc[i, 'delete'] = True
+    # Before removing duplicates
+    pprint(f"Number of measurements per proposal (before consecutive deduplication):")
+    display(df.groupby(proposal_col).size())
+    # remove duplicates
+    df = df[df['delete'] == False]
+    df = df.drop(columns=['delete'])
+    df = df.reset_index(drop=True)
+    # After removing duplicates
+    print(f"Number of measurements per proposal (after consecutive deduplication):")
+    pprint(df.groupby(proposal_col).size())
+    return df
 
 def lat_lng2dist_ang(center_point_lat_lng, target_point_lat_lng):
     # center_point_lat_lng = [lat, lng] this is one of the known proposal points (not the evidence point)
@@ -46,3 +68,4 @@ def raster_evidence_geomap(
     ax.axis('off')
     #! save this as a raster image as the backround basemap is raster...
     return ax
+
