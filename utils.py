@@ -41,10 +41,13 @@ def lat_lng2dist_ang(center_point_lat_lng, target_point_lat_lng):
     )
     distance = results["s12"]
     angle_deg = results["azi1"]
+    # angle from -180 to 180 convert to 0 to 360
+    if angle_deg < 0:
+        angle_deg = 360 + angle_deg
     angle_rad = math.radians(angle_deg)
     # from -pi to pi convert to 0 to 2pi
-    if angle_rad < 0:
-        angle_rad = 2 * math.pi + angle_rad
+    # if angle_rad < 0:
+        # angle_rad = 2 * math.pi + angle_rad
     return distance, angle_rad, angle_deg
 
 
