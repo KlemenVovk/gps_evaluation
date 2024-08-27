@@ -1,5 +1,4 @@
 import pandas as pd
-import viz
 import os
 from geographiclib.geodesic import Geodesic
 import math
@@ -69,17 +68,17 @@ def transform(measurements_df, gt_points_df, proposal_col="measured_from"):
     return transformed_df
 
 
+if __name__ == "__main__":
+    measurements_df = pd.read_csv(MEASUREMENTS_CSV, parse_dates=["datetime"])
+    gt_points_df = pd.read_csv(GT_POINTS_CSV)
 
-measurements_df = pd.read_csv(MEASUREMENTS_CSV, parse_dates=["datetime"])
-gt_points_df = pd.read_csv(GT_POINTS_CSV)
+    transformed_df = remove_consecutive_duplicates(measurements_df)
+    proposal_names = gt_points_df["name"].tolist()
+    proposal_names.remove("E")
 
-transformed_df = remove_consecutive_duplicates(measurements_df)
-proposal_names = gt_points_df["name"].tolist()
-proposal_names.remove("E")
+    transformed_df = transform(transformed_df, gt_points_df)
+    os.makedirs(f'datasets/processed/{GEOLOCATION}', exist_ok=True)
+    transformed_df = transformed_df[OUTPUT_COLUMNS]
+    transformed_df.to_csv(f'datasets/processed/{GEOLOCATION}/transformed.csv', index=False)
 
-transformed_df = transform(transformed_df, gt_points_df)
-os.makedirs(f'datasets/processed/{GEOLOCATION}', exist_ok=True)
-transformed_df = transformed_df[OUTPUT_COLUMNS]
-transformed_df.to_csv(f'datasets/processed/{GEOLOCATION}/transformed.csv', index=False)
-
-print(transformed_df.head())
+    print(transformed_df.head())
