@@ -17,7 +17,7 @@ parameters {
 }
 
 model {
-  // Priors (if not specified (as for sigma1 and sigma2 and mu1 and mu2), default, non-informative (uniform) priors are used)
+  // Priors - if not specified (as for sigma1 and sigma2 and mu1 and mu2), Stan's default, non-informative priors are used)
   L_Omega1 ~ lkj_corr_cholesky(2);
   L_Omega2 ~ lkj_corr_cholesky(2);
 
