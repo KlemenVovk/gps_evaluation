@@ -17,11 +17,7 @@ parameters {
 }
 
 model {
-  // Priors
-  mu1 ~ normal(0, 100);
-  mu2 ~ normal(0, 100);
-  sigma1 ~ cauchy(0, 5);
-  sigma2 ~ cauchy(0, 5);
+  // Priors (if not specified (as for sigma1 and sigma2 and mu1 and mu2), default, non-informative (uniform) priors are used)
   L_Omega1 ~ lkj_corr_cholesky(2);
   L_Omega2 ~ lkj_corr_cholesky(2);
 

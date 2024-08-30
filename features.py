@@ -83,8 +83,15 @@ if __name__ == "__main__":
     
     OUTPUT_COLUMNS = ['measured_from','lat', 'lng', 'distance', 'angle_rad', 'angle_deg']
 
+    precision_col = 'precise'
     measurements_df = pd.read_csv(MEASUREMENTS_CSV, parse_dates=["datetime"])
     gt_points_df = pd.read_csv(GT_POINTS_CSV)
+
+    if precision_col in measurements_df.columns:
+        print(f"Filtering measurements with precision=on")
+        measurements_df = measurements_df[measurements_df[precision_col] == "on"].copy()
+    else:
+        print(f"Measurement precision column not found in measurements_df. Skipping precise=on filter.")
 
     transformed_df = _remove_consecutive_duplicates(measurements_df)
     proposal_names = gt_points_df["name"].tolist()
